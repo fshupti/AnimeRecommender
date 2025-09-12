@@ -94,15 +94,11 @@ public class Main {
                         new Anime("My Love Story!!", "Romance", "ore_monogatari.jpg"), // adorable, popular rom-com
                         new Anime("Tonikawa: Over the Moon for You", "Romance", "tonikawa.jpg"), // cute & well-loved romance
                         new Anime("Monthly Girls’ Nozaki-kun", "Comedy", "nozaki_kun.jpg"), // hilarious, loved rom-com parody
-
-                        // Happy Fantasy / Slice of Life (Popular Picks)
                         new Anime("Kobayashi’s Dragon Maid", "Fantasy", "dragon_maid.jpg"), // super popular wholesome fantasy
                         new Anime("Cardcaptor Sakura", "Fantasy", "cardcaptor_sakura.jpg"), // beloved magical girl classic
                         new Anime("Little Witch Academia", "Fantasy", "little_witch_academia.jpg"), // cheerful magical academy
                         new Anime("Barakamon", "Comedy", "barakamon.jpg"), // highly rated, wholesome slice-of-life
                         new Anime("Nichijou", "Comedy", "nichijou.jpg"), // absurd comedy classic
-
-                        // Happy Mystery / Adventure (Popular but Lighthearted)
                         new Anime("Detective Conan (Case Closed)", "Mystery", "detective_conan.jpg"), // iconic mystery with fun tone
                         new Anime("The Great Pretender", "Mystery", "great_pretender.jpg"), // stylish & witty heist show
                 },
