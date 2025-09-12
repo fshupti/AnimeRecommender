@@ -3,6 +3,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
@@ -14,10 +16,6 @@ public class Main {
         //Layout
         frame.setLayout(new BorderLayout());
 
-
-
-
-
         // Title
         JLabel title = new JLabel("Anime Recommendation Generator", JLabel.CENTER);
         title.setFont(new Font("Arial", Font.BOLD, 16));
@@ -25,7 +23,7 @@ public class Main {
 
         // Dropdowns
         String[] moods = {"Happy", "Sad", "Excited", "Chill"};
-        String[] genres = {"Action", "Romance", "Comedy", "Fantasy"};
+        String[] genres = {"Action", "Romance", "Comedy", "Fantasy", "Mystery", "Horror", "Adventure", "Sports"};
 
         JComboBox<String> moodBox = new JComboBox<>(moods);
         JComboBox<String> genreBox = new JComboBox<>(genres);
@@ -55,22 +53,53 @@ public class Main {
         // Anime recommendations by mood + genre
         String[][] recommendations = {
                 // Happy
-                {"Happy + Action → Haikyuu!!", "Happy + Romance → Toradora!", "Happy + Comedy → K-On!", "Happy + Fantasy → One Piece"},
+                {
+                        "Happy + Action → Haikyuu!!",
+                        "Happy + Romance → Toradora!",
+                        "Happy + Comedy → K-On!",
+                        "Happy + Fantasy → One Piece",
+                        "Happy + Romance → Kimi ni Todoke",
+                        "Happy + Action → Jujutsu Kaisen",
+                        "Happy + Mystery → Death Note",
+                        "Happy + Romance → Fruits Basket"
+                },
                 // Sad
-                {"Sad + Action → Demon Slayer", "Sad + Romance → Your Lie in April", "Sad + Comedy → Clannad", "Sad + Fantasy → A Silent Voice"},
+                {
+                        "Sad + Action → Demon Slayer",
+                        "Sad + Romance → Your Lie in April",
+                        "Sad + Comedy → Clannad",
+                        "Sad + Fantasy → A Silent Voice",
+                        "Sad + Romance → Ouran High School Host Club",
+                        "Sad + Action → Bleach",
+                        "Sad + Romance → My Happy Marriage"
+                },
                 // Excited
-                {"Excited + Action → Attack on Titan", "Excited + Romance → Romantic Killer", "Excited + Comedy → The Disastrous Life of Saiki K", "Excited + Fantasy → Jujutsu Kaisen"},
+                {
+                        "Excited + Action → Attack on Titan",
+                        "Excited + Romance → Romantic Killer",
+                        "Excited + Comedy → The Disastrous Life of Saiki K",
+                        "Excited + Fantasy → Jujutsu Kaisen",
+                        "Excited + Horror → Higurashi",
+                        "Excited + Sports → Blue Lock",
+                        "Excited + Action → Hunter X Hunter",
+                        "Excited + Action → My Hero Academia"
+                },
                 // Chill
-                {"Chill + Action → Naruto", "Chill + Romance → Fruits Basket", "Chill + Comedy → Spy x Family", "Chill + Fantasy → Spirited Away"}
+                {
+                        "Chill + Action → Naruto",
+                        "Chill + Romance → Fruits Basket",
+                        "Chill + Comedy → Spy x Family",
+                        "Chill + Fantasy → Spirited Away",
+                        "Chill + Adventure → Jojo’s Bizarre Adventure",
+                        "Chill + Comedy → Pokémon",
+                        "Chill + Mystery → The Apothecary Diaries",
+                        "Chill + Romance → Nana",
+                        "Chill + Fantasy → A Whisker Away",
+                        "Chill + Romance → 5 Centimeters Per Second",
+                        "Chill + Horror → The Summer Hikaru Died"
+                }
         };
 
-
-        // { "Kimi ni Todoke" , "Jujutsu Kaisen", "Death Note", "Fruits Basket" },
-        // { "Ouran High School Host Club", "Bleach", "My Happy Marriage", "A Silent Voice"},
-        // { "The Disastrous life of Saiki K", "Romantic Killer", "Sailor Moon"},
-        // { "Higurashi", "Blue Lock", "Hunter X Hunter" , "My Hero Academica"},
-        // { "Jojo Bizarre", "Spy x Family" , "Pokémon", "The Apothecary Diaries"},
-        // { "Nana", "A Whisker Away", "5 Centimeters Per Minute" , "The Summer Hikaru Died"}
 
         Random random = new Random();
 
@@ -78,11 +107,22 @@ public class Main {
         recommendBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 int moodIndex = moodBox.getSelectedIndex();
-                int genreIndex = genreBox.getSelectedIndex();
+                String selectedGenre = genreBox.getSelectedItem().toString();
 
-                // Get the recommendation based on mood + genre
-                String chosen = recommendations[moodIndex][genreIndex];
-                result.setText("Recommendation: " + chosen);
+                // Filter recommendations by genre
+                List<String> filtered = new ArrayList<>();
+                for (String rec : recommendations[moodIndex]) {
+                    if (rec.contains(selectedGenre)) {
+                        filtered.add(rec);
+                    }
+                }
+
+                if (!filtered.isEmpty()) {
+                    String chosen = filtered.get(random.nextInt(filtered.size()));
+                    result.setText("Recommendation: " + chosen);
+                } else {
+                    result.setText("No anime found for " + moods[moodIndex] + " + " + selectedGenre);
+                }
             }
         });
 
