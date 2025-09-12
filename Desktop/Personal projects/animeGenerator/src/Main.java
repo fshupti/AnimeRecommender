@@ -10,7 +10,7 @@ import java.util.List;
 class Anime {
     String title;
     String genre;
-    String imagePath; // just the filename
+    String imagePath; // File name
 
     Anime(String title, String genre, String imagePath) {
         this.title = title;
@@ -79,7 +79,7 @@ public class Main {
 
         // Anime recommendations by mood + genre
         Anime[][] recommendations = {
-                // Happy
+                // Happy 😊
                 {
                         new Anime("Haikyuu!!", "Action", "haikyuu.jpg"), // sports & uplifting
                         new Anime("Toradora!", "Romance", "toradora.jpg"), // rom-com
@@ -90,16 +90,16 @@ public class Main {
                         new Anime("Spy x Family", "Comedy", "spy_x_family.jpg"), // fun family comedy
                         new Anime("Pokémon", "Adventure", "pokemon.jpg") // cheerful adventure
                 },
-                // Sad
+                // Sad 😢
                 {
                         new Anime("Your Lie in April", "Romance", "your_lie_in_april.jpg"), // emotional romance
                         new Anime("Clannad", "Romance", "clannad.jpg"), // drama/romance
                         new Anime("A Silent Voice", "Romance", "a_silent_voice.jpg"), // emotional drama
                         new Anime("Nana", "Romance", "nana.jpg"), // tragic romance
-                        new Anime("5 Centimeters Per Second", "Romance", "five_cm_per_sec.jpg"), // bittersweet romance
+                        new Anime("5 Centimeters Per Second", "Romance", "five_cm_per_sec.jpeg"), // bittersweet romance
                         new Anime("The Summer Hikaru Died", "Horror", "hikaru_died.jpg") // dark, tragic
                 },
-                // Excited
+                // Excited ⚡
                 {
                         new Anime("Attack on Titan", "Action", "attack_on_titan.jpg"), // intense action
                         new Anime("Jujutsu Kaisen", "Action", "jujutsu_kaisen.jpg"), // hype action
@@ -110,7 +110,7 @@ public class Main {
                         new Anime("Romantic Killer", "Comedy", "romantic_killer.jpg"), // chaotic rom-com excitement
                         new Anime("The Disastrous Life of Saiki K", "Comedy", "saiki_k.jpg") // over-the-top comedy
                 },
-                // Chill
+                // Chill 🌸
                 {
                         new Anime("Fruits Basket", "Romance", "fruits_basket.jpg"), // gentle romance
                         new Anime("Spirited Away", "Fantasy", "spirited_away.jpg"), // magical, calming
@@ -144,15 +144,15 @@ public class Main {
                     Anime chosen = filtered.get(random.nextInt(filtered.size()));
                     result.setText("Recommendation: " + chosen.title);
 
-                    // Load image from resources
-                    java.net.URL imgURL = Main.class.getResource("/images/" + chosen.imagePath);
+                    // Load image from src/resources/images
+                    java.net.URL imgURL = Main.class.getResource("/resources/images/" + chosen.imagePath);
                     if (imgURL != null) {
                         ImageIcon icon = new ImageIcon(imgURL);
                         Image scaledImage = icon.getImage().getScaledInstance(200, 300, Image.SCALE_SMOOTH);
                         imageLabel.setIcon(new ImageIcon(scaledImage));
                     } else {
                         imageLabel.setIcon(null);
-                        System.out.println("Image not found: " + chosen.imagePath);
+                        System.out.println("❌ Image not found: " + chosen.imagePath);
                     }
                 } else {
                     result.setText("No anime found for " + moods[moodIndex] + " + " + selectedGenre);
