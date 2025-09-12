@@ -22,7 +22,7 @@ class Anime {
 public class Main {
     public static void main(String[] args) {
         // Create window
-        JFrame frame = new JFrame("Anime Recommendation App");
+        JFrame frame = new JFrame("Anime Recommendation");
         frame.setSize(500, 500);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -30,13 +30,22 @@ public class Main {
         frame.setLayout(new BorderLayout());
 
         // Title
-        JLabel title = new JLabel("Anime Recommendation Generator", JLabel.CENTER);
+        JLabel title = new JLabel("Anime Recommendation", JLabel.CENTER);
         title.setFont(new Font("Arial", Font.BOLD, 18));
         frame.add(title, BorderLayout.NORTH);
 
-        // Dropdowns
-        String[] moods = {"Happy", "Sad", "Excited", "Chill"};
-        String[] genres = {"Action", "Romance", "Comedy", "Fantasy", "Mystery", "Horror", "Adventure", "Sports"};
+        // Dropdown menu 🎨
+        String[] moods = {"😊 Happy", "😢 Sad", "⚡ Excited", "🌸 Chill"};
+        String[] genres = {
+                "⚔️ Action",
+                "💕 Romance",
+                "😂 Comedy",
+                "🧚 Fantasy",
+                "🕵 Mystery",
+                "👻 Horror",
+                "🌍 Adventure",
+                "🏆 Sports"
+        };
 
         JComboBox<String> moodBox = new JComboBox<>(moods);
         JComboBox<String> genreBox = new JComboBox<>(genres);
@@ -85,7 +94,7 @@ public class Main {
                 {
                         new Anime("Your Lie in April", "Romance", "your_lie_in_april.jpg"), // emotional romance
                         new Anime("Clannad", "Romance", "clannad.jpg"), // drama/romance
-                        new Anime("A Silent Voice", "Drama", "a_silent_voice.jpg"), // emotional drama
+                        new Anime("A Silent Voice", "Romance", "a_silent_voice.jpg"), // emotional drama
                         new Anime("Nana", "Romance", "nana.jpg"), // tragic romance
                         new Anime("5 Centimeters Per Second", "Romance", "five_cm_per_sec.jpg"), // bittersweet romance
                         new Anime("The Summer Hikaru Died", "Horror", "hikaru_died.jpg") // dark, tragic
@@ -108,18 +117,10 @@ public class Main {
                         new Anime("A Whisker Away", "Fantasy", "a_whisker_away.jpg"), // whimsical
                         new Anime("The Apothecary Diaries", "Mystery", "apothecary_diaries.jpg"), // slow-burn mystery
                         new Anime("Jojo’s Bizarre Adventure", "Adventure", "jojo.jpg"), // quirky, stylish adventure
-                        new Anime("Bleach", "Action", "bleach.jpg"), // chill compared to AoT/DS, more adventure vibe
+                        new Anime("Bleach", "Action", "bleach.jpg"), // more adventure vibe
                         new Anime("My Happy Marriage", "Romance", "my_happy_marriage.jpg") // calm romance drama
                 }
         };
-
-
-        // { "Kimi ni Todoke" , "Jujutsu Kaisen", "Death Note", "Fruits Basket" },
-        // { "Ouran High School Host Club", "Bleach", "My Happy Marriage", "A Silent Voice"},
-        // { "The Disastrous life of Saiki K", "Romantic Killer", "Sailor Moon"},
-        // { "Higurashi", "Blue Lock", "Hunter X Hunter" , "My Hero Academica"},
-        // { "Jojo Bizarre", "Spy x Family" , "Pokémon", "The Apothecary Diaries"},
-        // { "Nana", "A Whisker Away", "5 Centimeters Per Minute" , "The Summer Hikaru Died"}
 
         Random random = new Random();
 
@@ -127,7 +128,9 @@ public class Main {
         recommendBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 int moodIndex = moodBox.getSelectedIndex();
-                String selectedGenre = genreBox.getSelectedItem().toString();
+
+                // Strip emojis from dropdown values to match Anime genres
+                String selectedGenre = genreBox.getSelectedItem().toString().replaceAll("^[^a-zA-Z]+", "").trim();
 
                 // Filter by genre
                 List<Anime> filtered = new ArrayList<>();
