@@ -10,7 +10,13 @@ public class Main {
         JFrame frame = new JFrame("Anime Recommendation App");
         frame.setSize(400, 300);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        //Layout
         frame.setLayout(new BorderLayout());
+
+
+
+
 
         // Title
         JLabel title = new JLabel("Anime Recommendation Generator", JLabel.CENTER);
@@ -25,6 +31,7 @@ public class Main {
         JComboBox<String> genreBox = new JComboBox<>(genres);
 
         JPanel inputPanel = new JPanel();
+        inputPanel.setBackground(new Color(255, 192, 203)); // light pink
         inputPanel.add(new JLabel("Mood:"));
         inputPanel.add(moodBox);
         inputPanel.add(new JLabel("Genre:"));
@@ -40,6 +47,7 @@ public class Main {
 
         // Bottom panel
         JPanel bottomPanel = new JPanel(new BorderLayout());
+        bottomPanel.setBackground(new Color(255, 182, 193)); // sakura pink
         bottomPanel.add(result, BorderLayout.CENTER);
         bottomPanel.add(recommendBtn, BorderLayout.SOUTH);
         frame.add(bottomPanel, BorderLayout.SOUTH);
