@@ -88,7 +88,23 @@ public class Main {
                         new Anime("Kimi ni Todoke", "Romance", "kimi_ni_todoke.jpg"), // sweet romance
                         new Anime("Ouran High School Host Club", "Comedy", "ouran.jpg"), // rom-com, lighthearted
                         new Anime("Spy x Family", "Comedy", "spy_x_family.jpg"), // fun family comedy
-                        new Anime("Pokémon", "Adventure", "pokemon.jpg") // cheerful adventure
+                        new Anime("Pokémon", "Adventure", "pokemon.jpg"), // cheerful adventure
+                        new Anime("Horimiya", "Romance", "horimiya.jpg"), // wholesome, super popular school romance
+                        new Anime("Kaguya-sama: Love is War", "Comedy", "kaguya.jpg"), // mega-hit rom-com mind games
+                        new Anime("My Love Story!!", "Romance", "ore_monogatari.jpg"), // adorable, popular rom-com
+                        new Anime("Tonikawa: Over the Moon for You", "Romance", "tonikawa.jpg"), // cute & well-loved romance
+                        new Anime("Monthly Girls’ Nozaki-kun", "Comedy", "nozaki_kun.jpg"), // hilarious, loved rom-com parody
+
+                        // Happy Fantasy / Slice of Life (Popular Picks)
+                        new Anime("Kobayashi’s Dragon Maid", "Fantasy", "dragon_maid.jpg"), // super popular wholesome fantasy
+                        new Anime("Cardcaptor Sakura", "Fantasy", "cardcaptor_sakura.jpg"), // beloved magical girl classic
+                        new Anime("Little Witch Academia", "Fantasy", "little_witch_academia.jpg"), // cheerful magical academy
+                        new Anime("Barakamon", "Comedy", "barakamon.jpg"), // highly rated, wholesome slice-of-life
+                        new Anime("Nichijou", "Comedy", "nichijou.jpg"), // absurd comedy classic
+
+                        // Happy Mystery / Adventure (Popular but Lighthearted)
+                        new Anime("Detective Conan (Case Closed)", "Mystery", "detective_conan.jpg"), // iconic mystery with fun tone
+                        new Anime("The Great Pretender", "Mystery", "great_pretender.jpg"), // stylish & witty heist show
                 },
                 // Sad 😢
                 {
@@ -97,7 +113,27 @@ public class Main {
                         new Anime("A Silent Voice", "Romance", "a_silent_voice.jpg"), // emotional drama
                         new Anime("Nana", "Romance", "nana.jpg"), // tragic romance
                         new Anime("5 Centimeters Per Second", "Romance", "five_cm_per_sec.jpeg"), // bittersweet romance
-                        new Anime("The Summer Hikaru Died", "Horror", "hikaru_died.jpg") // dark, tragic
+                        new Anime("The Summer Hikaru Died", "Horror", "hikaru_died.jpg"), // dark, tragic
+                        new Anime("Erased", "Mystery", "erased.jpg"), // time-travel murder mystery, emotional
+                        new Anime("Terror in Resonance", "Mystery", "terror_in_resonance.jpg"), // thriller with tragic pasts
+                        new Anime("Paranoia Agent", "Mystery", "paranoia_agent.jpg"), // psychological mystery with sadness
+                        new Anime("Serial Experiments Lain", "Mystery", "lain.jpg"), // surreal, lonely, tragic
+                        new Anime("Made in Abyss", "Adventure", "made_in_abyss.jpg"), // beautiful but devastating
+                        new Anime("Wolf’s Rain", "Fantasy", "wolfs_rain.jpg"), // tragic journey in a dying world
+                        new Anime("The Garden of Sinners", "Mystery", "kara_no_kyoukai.jpg"), // dark, tragic mystery films
+                        new Anime("Steins;Gate", "Mystery", "steins_gate.jpg"), // sci-fi tragedy with love & sacrifice
+                        new Anime("Anohana: The Flower We Saw That Day", "Romance", "anohana.jpg"), // uncovering grief like a mystery
+                        new Anime("Akame ga Kill!", "Action", "akame_ga_kill.jpg"), // tragic shonen with many deaths
+                        new Anime("Angel Beats!", "Action", "angel_beats.jpg"), // afterlife battles, emotional stories
+                        new Anime("Elfen Lied", "Action", "elfen_lied.jpg"), // violent yet heartbreaking tragedy
+                        new Anime("Plastic Memories", "Comedy", "plastic_memories.jpg"), // light comedy, bittersweet ending
+                        new Anime("March Comes in Like a Lion", "Comedy", "march_lion.jpg"), // humor mixed with depression themes
+                        new Anime("Assassination Classroom", "Comedy", "assassination_classroom.jpg"), // funny school life, sad finale
+                        new Anime("Ping Pong the Animation", "Sports", "ping_pong.jpg"), // intense sports drama, emotional growth
+                        new Anime("Ashita no Joe", "Sports", "ashita_no_joe.jpg"), // classic boxing with tragic end
+                        new Anime("Cross Game", "Sports", "cross_game.jpg") // baseball story, starts with tragedy
+
+
                 },
                 // Excited ⚡
                 {
@@ -109,7 +145,14 @@ public class Main {
                         new Anime("Demon Slayer", "Action", "demon_slayer.jpg"), // thrilling battles
                         new Anime("Romantic Killer", "Comedy", "romantic_killer.jpg"), // chaotic rom-com excitement
                         new Anime("The Disastrous Life of Saiki K", "Comedy", "saiki_k.jpg"), // over-the-top comedy
-                        new Anime("Higurashi", "Horror", "higurashi.png") // psychological horror, intense
+                        new Anime("Higurashi", "Horror", "higurashi.png"), // psychological horror, intense
+                        new Anime("Death Note", "Mystery", "death_note.jpg"), // dark psychological thriller
+                        new Anime("Dragon Ball Z", "Action", "dragon_ball_z.jpg"), // classic shonen action, hype battles
+                        new Anime("Fullmetal Alchemist: Brotherhood", "Action", "fullmetal_alchemist.jpeg"), // epic action + mystery, classic shonen
+                        new Anime("Kakegurui", "Mystery", "kakegurui.jpg"), // intense gambling thriller, stylish and hype
+
+
+
                 },
                 // Chill 🌸
                 {
@@ -120,7 +163,11 @@ public class Main {
                         new Anime("Jojo’s Bizarre Adventure", "Adventure", "jojo.jpg"), // quirky, stylish adventure
                         new Anime("Bleach", "Action", "bleach.jpg"), // more adventure vibe
                         new Anime("My Happy Marriage", "Romance", "my_happy_marriage.jpg"), // calm romance drama
-                        new Anime("Sailor Moon", "Fantasy", "sailor_moon.jpg") // magical girl classic
+                        new Anime("Sailor Moon", "Fantasy", "sailor_moon.jpg"), // magical girl classic
+                        new Anime("Mushi-shi", "Horror", "mushishi.jpg"), // atmospheric, eerie, chill horror
+                        new Anime("Barakamon", "Comedy", "barakamon.jpg"), // wholesome, popular chill comedy
+                        new Anime("Free!", "Sports", "free.jpg"), // popular swimming anime, mix of slice-of-life and sports
+
                 }
         };
 
