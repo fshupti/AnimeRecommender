@@ -108,7 +108,8 @@ public class Main {
                         new Anime("My Hero Academia", "Action", "my_hero_academia.jpg"), // action-packed
                         new Anime("Demon Slayer", "Action", "demon_slayer.jpg"), // thrilling battles
                         new Anime("Romantic Killer", "Comedy", "romantic_killer.jpg"), // chaotic rom-com excitement
-                        new Anime("The Disastrous Life of Saiki K", "Comedy", "saiki_k.jpg") // over-the-top comedy
+                        new Anime("The Disastrous Life of Saiki K", "Comedy", "saiki_k.jpg"), // over-the-top comedy
+                        new Anime("Higurashi", "Horror", "higurashi.png") // psychological horror, intense
                 },
                 // Chill 🌸
                 {
@@ -118,7 +119,8 @@ public class Main {
                         new Anime("The Apothecary Diaries", "Mystery", "apothecary_diaries.jpg"), // slow-burn mystery
                         new Anime("Jojo’s Bizarre Adventure", "Adventure", "jojo.jpg"), // quirky, stylish adventure
                         new Anime("Bleach", "Action", "bleach.jpg"), // more adventure vibe
-                        new Anime("My Happy Marriage", "Romance", "my_happy_marriage.jpg") // calm romance drama
+                        new Anime("My Happy Marriage", "Romance", "my_happy_marriage.jpg"), // calm romance drama
+                        new Anime("Sailor Moon", "Fantasy", "sailor_moon.jpg") // magical girl classic
                 }
         };
 
