@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/animeGenerator.iml" filepath="$PROJECT_DIR$/animeGenerator.iml" />
+      <module fileurl="file://$PROJECT_DIR$/anime-recommender.iml" filepath="$PROJECT_DIR$/anime-recommender.iml" />
     </modules>
   </component>
 </project>
