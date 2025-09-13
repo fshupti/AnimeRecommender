@@ -26,6 +26,28 @@ class Anime {
     }
 }
 
+// Custom rounded border class (for cute buttons / panels)
+class RoundedBorder implements javax.swing.border.Border {
+    private int radius;
+
+    RoundedBorder(int radius) {
+        this.radius = radius;
+    }
+
+    public Insets getBorderInsets(Component c) {
+        return new Insets(this.radius + 1, this.radius + 1, this.radius + 2, this.radius);
+    }
+
+    public boolean isBorderOpaque() {
+        return true;
+    }
+
+    public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+        g.setColor(new Color(230, 230, 230)); // soft light gray border
+        g.drawRoundRect(x, y, width - 1, height - 1, radius, radius);
+    }
+}
+
 public class Main {
     public static void main(String[] args) {
         // Load anime.json using Gson
@@ -34,7 +56,7 @@ public class Main {
 
         Map<String, List<Anime>> animeData = null;
         try {
-            // ✅ Try to load anime.json from resources
+            // Load anime.json from resources
             InputStream inputStream = Main.class.getResourceAsStream("/anime.json");
 
             // Debug print — will tell us if the file is found
@@ -65,18 +87,18 @@ public class Main {
 
         // Create window
         JFrame frame = new JFrame("Anime Recommendation");
-        frame.setSize(500, 500);
+        frame.setSize(500, 600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Layout
         frame.setLayout(new BorderLayout());
 
-        // Title
+        // Title at top
         JLabel title = new JLabel("Anime Recommendation", JLabel.CENTER);
         title.setFont(new Font("Arial", Font.BOLD, 18));
-        frame.add(title, BorderLayout.NORTH);
+        title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        // Dropdown menu 🎨
+        // Dropdown menu 🎨 (Mood + Genre selection)
         String[] moods = {"😊 Happy", "😢 Sad", "⚡ Excited", "🌸 Chill"};
         String[] genres = {
                 "⚔️ Action",
@@ -93,35 +115,65 @@ public class Main {
         JComboBox<String> genreBox = new JComboBox<>(genres);
 
         JPanel inputPanel = new JPanel();
-        inputPanel.setBackground(new Color(255, 192, 203)); // light pink
+        inputPanel.setBackground(new Color(255, 192, 203)); // light pink background
         inputPanel.add(new JLabel("Mood:"));
         inputPanel.add(moodBox);
         inputPanel.add(new JLabel("Genre:"));
         inputPanel.add(genreBox);
-        frame.add(inputPanel, BorderLayout.CENTER);
 
-        // Result area (text + image)
-        JPanel resultPanel = new JPanel(new BorderLayout());
+        // 🔑 Fix: Combine title + inputPanel into one topPanel
+        JPanel topPanel = new JPanel();
+        topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
+        topPanel.setBackground(new Color(255, 192, 203));
+        topPanel.add(title);
+        topPanel.add(Box.createVerticalStrut(5)); // small spacing
+        topPanel.add(inputPanel);
+
+        frame.add(topPanel, BorderLayout.NORTH);
+
+        // Card-style panel for recommendation results
+        JPanel cardPanel = new JPanel();
+        cardPanel.setBackground(Color.WHITE);
+        cardPanel.setBorder(BorderFactory.createCompoundBorder(
+                new RoundedBorder(20), // rounded edges
+                BorderFactory.createEmptyBorder(15, 15, 15, 15) // padding inside
+        ));
+        cardPanel.setLayout(new BorderLayout());
+
         JLabel result = new JLabel("Pick mood + genre and click Recommend!", JLabel.CENTER);
-        result.setFont(new Font("Arial", Font.PLAIN, 14));
+        result.setFont(new Font("Arial", Font.BOLD, 14));
 
-        JLabel imageLabel = new JLabel("", JLabel.CENTER); // where the cover image will appear
-        resultPanel.add(result, BorderLayout.NORTH);
-        resultPanel.add(imageLabel, BorderLayout.CENTER);
+        JLabel imageLabel = new JLabel("", JLabel.CENTER); // where cover image appears
+        cardPanel.add(result, BorderLayout.NORTH);
+        cardPanel.add(imageLabel, BorderLayout.CENTER);
 
-        // Button
+        // 🔑 Fix: keep FlowLayout so card doesn’t stretch, add padding to push it lower
+        JPanel centerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        centerPanel.setBackground(new Color(255, 182, 193)); // sakura pink
+        centerPanel.setBorder(BorderFactory.createEmptyBorder(40, 0, 0, 0)); // 40px top padding
+        centerPanel.add(cardPanel);
+
+        frame.add(centerPanel, BorderLayout.CENTER);
+
+        // Recommend Button (smaller, cute pill-style, centered)
         JButton recommendBtn = new JButton("Recommend");
+        recommendBtn.setPreferredSize(new Dimension(120, 35)); // small size
+        recommendBtn.setFont(new Font("Comic Sans MS", Font.BOLD, 14)); // playful font
+        recommendBtn.setBackground(new Color(255, 182, 193)); // pastel pink
+        recommendBtn.setForeground(Color.WHITE);
+        recommendBtn.setFocusPainted(false);
+        recommendBtn.setOpaque(true);
+        recommendBtn.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2, true)); // soft white outline
 
-        // Bottom panel
-        JPanel bottomPanel = new JPanel(new BorderLayout());
-        bottomPanel.setBackground(new Color(255, 182, 193)); // sakura pink
-        bottomPanel.add(resultPanel, BorderLayout.CENTER);
-        bottomPanel.add(recommendBtn, BorderLayout.SOUTH);
-        frame.add(bottomPanel, BorderLayout.SOUTH);
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        buttonPanel.setBackground(new Color(255, 182, 193));
+        buttonPanel.add(recommendBtn);
+
+        frame.add(buttonPanel, BorderLayout.SOUTH);
 
         Random random = new Random();
 
-        // Button logic
+        // Button logic: show recommendation
         recommendBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 int moodIndex = moodBox.getSelectedIndex();
@@ -129,7 +181,7 @@ public class Main {
                 // Strip emojis from dropdown values to match Anime genres
                 String selectedGenre = genreBox.getSelectedItem().toString().replaceAll("^[^a-zA-Z]+", "").trim();
 
-                // Filter by genre
+                // Filter anime by genre for selected mood
                 List<Anime> filtered = new ArrayList<>();
                 for (Anime rec : recommendations.get(moodIndex)) {
                     if (rec.genre.equalsIgnoreCase(selectedGenre)) {
@@ -137,6 +189,7 @@ public class Main {
                     }
                 }
 
+                // Pick a random anime from filtered list
                 if (!filtered.isEmpty()) {
                     Anime chosen = filtered.get(random.nextInt(filtered.size()));
                     result.setText("Recommendation: " + chosen.title);
