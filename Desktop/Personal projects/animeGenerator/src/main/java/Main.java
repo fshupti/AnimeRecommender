@@ -1,5 +1,8 @@
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonParser;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,12 +11,13 @@ import java.awt.event.ActionListener;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.List;
 import java.util.Map;
 
-// Helper class to store anime info
+// Helper class to store anime info (used for local JSON backup)
 class Anime {
     String title;
     String genre;
@@ -26,7 +30,7 @@ class Anime {
     }
 }
 
-// Custom rounded border class (for cute buttons / panels)
+// Custom rounded border class (for cute panels/buttons)
 class RoundedBorder implements javax.swing.border.Border {
     private int radius;
 
@@ -50,7 +54,7 @@ class RoundedBorder implements javax.swing.border.Border {
 
 public class Main {
     public static void main(String[] args) {
-        // Load anime.json using Gson
+        //  Load anime.json using Gson (backup data if AniList fails)
         Gson gson = new Gson();
         Type type = new TypeToken<Map<String, List<Anime>>>() {}.getType();
 
@@ -59,7 +63,6 @@ public class Main {
             // Load anime.json from resources
             InputStream inputStream = Main.class.getResourceAsStream("/anime.json");
 
-            // Debug print — will tell us if the file is found
             System.out.println("anime.json resource = " + Main.class.getResource("/anime.json"));
 
             if (inputStream == null) {
@@ -67,7 +70,7 @@ public class Main {
                         "Make sure it's inside src/resources/ and that folder is marked as Resources Root.");
             }
 
-            // Use UTF-8 so special characters (like Japanese titles) load correctly
+            // Parse JSON with UTF-8 (for Japanese titles, etc.)
             try (InputStreamReader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8)) {
                 animeData = gson.fromJson(reader, type);
             }
@@ -77,7 +80,7 @@ public class Main {
             return;
         }
 
-        // Map moods to lists (same order as dropdown menu 🎨)
+        // Map moods to anime lists (same order as dropdown menu 🎨)
         List<List<Anime>> recommendations = List.of(
                 animeData.getOrDefault("Happy", new ArrayList<>()),   // 😊 Happy
                 animeData.getOrDefault("Sad", new ArrayList<>()),     // 😢 Sad
@@ -85,12 +88,10 @@ public class Main {
                 animeData.getOrDefault("Chill", new ArrayList<>())    // 🌸 Chill
         );
 
-        // Create window
+        // Create main window
         JFrame frame = new JFrame("Anime Recommendation");
         frame.setSize(500, 600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        // Layout
         frame.setLayout(new BorderLayout());
 
         // Title at top
@@ -98,17 +99,11 @@ public class Main {
         title.setFont(new Font("Arial", Font.BOLD, 18));
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        // Dropdown menu 🎨 (Mood + Genre selection)
+        // Dropdown menus 🎨 (Mood + Genre selection)
         String[] moods = {"😊 Happy", "😢 Sad", "⚡ Excited", "🌸 Chill"};
         String[] genres = {
-                "⚔️ Action",
-                "💕 Romance",
-                "😂 Comedy",
-                "🧚 Fantasy",
-                "🕵 Mystery",
-                "👻 Horror",
-                "🌍 Adventure",
-                "🏆 Sports"
+                "⚔️ Action", "💕 Romance", "😂 Comedy", "🧚 Fantasy",
+                "🕵 Mystery", "👻 Horror", "🌍 Adventure", "🏆 Sports"
         };
 
         JComboBox<String> moodBox = new JComboBox<>(moods);
@@ -121,7 +116,7 @@ public class Main {
         inputPanel.add(new JLabel("Genre:"));
         inputPanel.add(genreBox);
 
-        // 🔑 Fix: Combine title + inputPanel into one topPanel
+        // Combine title + inputPanel into one top panel
         JPanel topPanel = new JPanel();
         topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
         topPanel.setBackground(new Color(255, 192, 203));
@@ -131,7 +126,7 @@ public class Main {
 
         frame.add(topPanel, BorderLayout.NORTH);
 
-        // Card-style panel for recommendation results
+        // Card-style panel for results
         JPanel cardPanel = new JPanel();
         cardPanel.setBackground(Color.WHITE);
         cardPanel.setBorder(BorderFactory.createCompoundBorder(
@@ -143,22 +138,22 @@ public class Main {
         JLabel result = new JLabel("Pick mood + genre and click Recommend!", JLabel.CENTER);
         result.setFont(new Font("Arial", Font.BOLD, 14));
 
-        JLabel imageLabel = new JLabel("", JLabel.CENTER); // where cover image appears
+        JLabel imageLabel = new JLabel("", JLabel.CENTER); // where cover image will show
         cardPanel.add(result, BorderLayout.NORTH);
         cardPanel.add(imageLabel, BorderLayout.CENTER);
 
-        // 🔑 Fix: keep FlowLayout so card doesn’t stretch, add padding to push it lower
+        // Center the card with padding
         JPanel centerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         centerPanel.setBackground(new Color(255, 182, 193)); // sakura pink
-        centerPanel.setBorder(BorderFactory.createEmptyBorder(40, 0, 0, 0)); // 40px top padding
+        centerPanel.setBorder(BorderFactory.createEmptyBorder(40, 0, 0, 0));
         centerPanel.add(cardPanel);
 
         frame.add(centerPanel, BorderLayout.CENTER);
 
-        // Recommend Button (smaller, cute pill-style, centered)
+        //  Recommend Button (cute pill-style)
         JButton recommendBtn = new JButton("Recommend");
-        recommendBtn.setPreferredSize(new Dimension(120, 35)); // small size
-        recommendBtn.setFont(new Font("Comic Sans MS", Font.BOLD, 14)); // playful font
+        recommendBtn.setPreferredSize(new Dimension(120, 35));
+        recommendBtn.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
         recommendBtn.setBackground(new Color(255, 182, 193)); // pastel pink
         recommendBtn.setForeground(Color.WHITE);
         recommendBtn.setFocusPainted(false);
@@ -173,15 +168,44 @@ public class Main {
 
         Random random = new Random();
 
-        // Button logic: show recommendation
+        // Button logic: Try AniList first, fallback to local JSON
         recommendBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                int moodIndex = moodBox.getSelectedIndex();
-
-                // Strip emojis from dropdown values to match Anime genres
                 String selectedGenre = genreBox.getSelectedItem().toString().replaceAll("^[^a-zA-Z]+", "").trim();
 
-                // Filter anime by genre for selected mood
+                try {
+                    //  Try AniList API
+                    String response = AniListAPI.fetchByGenre(selectedGenre);
+
+                    JsonObject data = JsonParser.parseString(response)
+                            .getAsJsonObject()
+                            .getAsJsonObject("data")
+                            .getAsJsonObject("Page");
+
+                    JsonArray mediaArray = data.getAsJsonArray("media");
+
+                    if (mediaArray.size() > 0) {
+                        int randomIndex = new Random().nextInt(mediaArray.size());
+                        JsonObject anime = mediaArray.get(randomIndex).getAsJsonObject();
+
+                        String title = anime.getAsJsonObject("title").get("romaji").getAsString();
+                        String img = anime.getAsJsonObject("coverImage").get("large").getAsString();
+                        String url = anime.get("siteUrl").getAsString();
+
+                        // Show AniList result
+                        result.setText("<html>" + title + " (<a href='" + url + "'>AniList</a>)</html>");
+
+                        ImageIcon icon = new ImageIcon(new URL(img));
+                        Image scaledImage = icon.getImage().getScaledInstance(200, 300, Image.SCALE_SMOOTH);
+                        imageLabel.setIcon(new ImageIcon(scaledImage));
+                        return; // stop here if AniList works
+                    }
+                } catch (Exception ex) {
+                    System.out.println("⚠️ AniList failed, using backup JSON...");
+                }
+
+                // Fallback: Local JSON
+                int moodIndex = moodBox.getSelectedIndex();
                 List<Anime> filtered = new ArrayList<>();
                 for (Anime rec : recommendations.get(moodIndex)) {
                     if (rec.genre.equalsIgnoreCase(selectedGenre)) {
@@ -189,12 +213,10 @@ public class Main {
                     }
                 }
 
-                // Pick a random anime from filtered list
                 if (!filtered.isEmpty()) {
                     Anime chosen = filtered.get(random.nextInt(filtered.size()));
-                    result.setText("Recommendation: " + chosen.title);
+                    result.setText("Backup Recommendation: " + chosen.title);
 
-                    // Load image from src/resources/images
                     java.net.URL imgURL = Main.class.getResource("/images/" + chosen.imagePath);
                     if (imgURL != null) {
                         ImageIcon icon = new ImageIcon(imgURL);
@@ -205,7 +227,7 @@ public class Main {
                         System.out.println("❌ Image not found: " + chosen.imagePath);
                     }
                 } else {
-                    result.setText("No anime found for " + moods[moodIndex] + " + " + selectedGenre);
+                    result.setText("No anime found for " + selectedGenre);
                     imageLabel.setIcon(null);
                 }
             }
